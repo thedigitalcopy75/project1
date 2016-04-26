@@ -1,0 +1,110 @@
+#include <cstdlib>
+#include <iostream>
+#include <string> 
+#include <stdio.h>
+#include <ctype.h>
+using namespace std;
+
+
+//Finds and returns the index of the value in the array
+int FindIndex(const string a[], int size, string value)
+{
+	int index = 0;
+	// loop through all the cards and see if the card the player selected matches
+	while (index < size && a[index] != value) {
+		++index;
+	}
+
+	if (index == size)
+	{
+		return -1;  // if we don't find a match e.g. the player input 'R'
+	}
+	else {
+		return index; //if we find a match return the index (card rank)
+	}
+}
+
+//This function simply outputs the result
+void PrintOutput(int player1Wins, int player2Wins, int draws)
+{
+	cout << "The Results After 26 Rounds" << endl;
+	cout << "Player One Won   : " << player1Wins << endl;
+	cout << "Player Two Won   : " << player2Wins << endl;
+	cout << "Drawn          : " << draws << endl;
+
+	if (player1Wins > player2Wins)
+	{
+		cout << "Player One Wins Overall!" << endl;
+	}
+	else if (player1Wins < player2Wins) {
+		cout << "Player Two Wins Overall!" << endl;
+	}
+	else if (player1Wins == player2Wins) {
+		cout << "Both Players Are Tied For Number Of Wins" << endl;
+	}
+}
+
+/*
+*
+*/
+int main(int argc, char** argv) {
+	// our card array. used to know which card is higher
+	string deck[13] = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+
+	//variables that holds the players selected card
+	string player1Card;
+	string player2Card;
+
+	//variables to hold the results
+	int player1Wins = 0;
+	int player2Wins = 0;
+	int draws = 0;
+
+	//variable to find out the index of the players selected card
+	int player1CardIndex = -1;
+	int player2CardIndex = -2;
+
+	for (int i = 0; i<26; i++)
+	{
+		system("cls"); // clear screen
+
+		cout << "Use These Cards Only : ";
+
+		for (int x = 0; x<13; x++){
+			cout << deck[x] << " ";
+		}
+
+		// ask players to enter their selected card
+		cout << endl << "Player 1 - Enter A Card" << endl;
+		cin >> (player1Card);
+
+		cout << endl << "Player 2 - Enter A Card" << endl;
+		cin >> (player2Card);
+
+		//Find out the ranking of the player selected card
+		player1CardIndex = FindIndex(deck, 13, player1Card);
+		player2CardIndex = FindIndex(deck, 13, player2Card);
+
+		//compare the results and increment accordingly
+		if (player1CardIndex == player2CardIndex)
+		{
+			draws++;
+		}
+		if (player1CardIndex > player2CardIndex)
+		{
+			player1Wins++;
+		}
+		if (player1CardIndex < player2CardIndex)
+		{
+			player2Wins++;
+		}
+	}
+
+	// display the results
+	PrintOutput(player1Wins, player2Wins, draws);
+
+	cout << endl << "Enter to continue..." << endl;
+
+	system("PAUSE");
+	return 0;
+}
